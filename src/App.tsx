@@ -263,35 +263,6 @@ const HorizontalScrollSection: React.FC<{
   icon: React.ReactNode;
   isDark: boolean;
 }> = ({ children, title, subtitle, icon, isDark }) => {
-  const [scrollPosition, setScrollPosition] = useState(0);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
-
-  const scrollContainerRef = React.useRef<HTMLDivElement>(null);
-
-  const scroll = (direction: 'left' | 'right') => {
-    if (scrollContainerRef.current) {
-      const scrollAmount = 680; // Width of 2 cards + gaps
-      const newPosition = direction === 'left' 
-        ? scrollPosition - scrollAmount 
-        : scrollPosition + scrollAmount;
-      
-      scrollContainerRef.current.scrollTo({
-        left: newPosition,
-        behavior: 'smooth'
-      });
-    }
-  };
-
-  const handleScroll = () => {
-    if (scrollContainerRef.current) {
-      const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
-      setScrollPosition(scrollLeft);
-      setCanScrollLeft(scrollLeft > 0);
-      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
-    }
-  };
-
   return (
     <section className="space-y-6">
       <div className="text-center">
@@ -310,44 +281,9 @@ const HorizontalScrollSection: React.FC<{
         </p>
       </div>
 
-      <div className="relative">
-        {/* Left scroll button */}
-        {canScrollLeft && (
-          <button
-            onClick={() => scroll('left')}
-            className={`absolute left-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full shadow-lg transition-all duration-300 hover:scale-110 active:scale-95 flex items-center justify-center ${
-              isDark 
-                ? 'bg-slate-800/90 hover:bg-slate-700/90 text-blue-400 border border-slate-700/50' 
-                : 'bg-white/90 hover:bg-white text-blue-600 border border-blue-200/50'
-            } backdrop-blur-md`}
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </button>
-        )}
-
-        {/* Right scroll button */}
-        {canScrollRight && (
-          <button
-            onClick={() => scroll('right')}
-            className={`absolute right-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full shadow-lg transition-all duration-300 hover:scale-110 active:scale-95 flex items-center justify-center ${
-              isDark 
-                ? 'bg-slate-800/90 hover:bg-slate-700/90 text-blue-400 border border-slate-700/50' 
-                : 'bg-white/90 hover:bg-white text-blue-600 border border-blue-200/50'
-            } backdrop-blur-md`}
-          >
-            <ChevronRight className="w-5 h-5" />
-          </button>
-        )}
-
-        {/* Scrollable container */}
-        <div
-          ref={scrollContainerRef}
-          onScroll={handleScroll}
-          className="grid grid-flow-col auto-cols-max gap-4 overflow-x-auto scrollbar-hide pb-4"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-        >
-          {children}
-        </div>
+      {/* 2-row grid container */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 max-h-[600px] overflow-y-auto scrollbar-hide">
+        {children}
       </div>
     </section>
   );
@@ -364,7 +300,7 @@ const PDFResourceCard: React.FC<{ resource: PDFResource; isDark: boolean }> = ({
   };
 
   return (
-    <div className={`group relative overflow-hidden rounded-2xl border transition-all duration-500 hover:scale-[1.02] hover:-translate-y-1 hover:rotate-1 flex-shrink-0 w-80 ${
+    <div className={`group relative overflow-hidden rounded-2xl border transition-all duration-500 hover:scale-[1.02] hover:-translate-y-1 h-64 flex flex-col ${
       isDark 
         ? 'bg-slate-800/30 border-slate-700/30 hover:border-blue-400/40 hover:bg-slate-800/50' 
         : 'bg-white/70 border-blue-200/40 hover:border-blue-400/60 hover:bg-white/90 hover:shadow-blue-200/25'
@@ -375,27 +311,59 @@ const PDFResourceCard: React.FC<{ resource: PDFResource; isDark: boolean }> = ({
           : 'bg-gradient-to-br from-blue-500/5 to-sky-500/5'
       }`} />
       
-      <div className="relative p-6">
-        <div className="flex items-start justify-between">
-          <div className="flex items-start space-x-4 flex-grow">
-            <div className={`flex-shrink-0 p-3 rounded-xl transition-all duration-300 group-hover:scale-110 group-hover:rotate-12 ${
-              isDark ? 'bg-blue-500/20 text-blue-400' : 'bg-blue-100/80 text-blue-600'
-            }`}>
-              <FileText className="w-6 h-6" />
-            </div>
-            <div className="flex-grow">
-              <div className="flex items-center space-x-2 mb-2">
-                <div className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${
-                  isDark ? 'bg-slate-700/50 text-slate-300' : 'bg-blue-50/80 text-blue-700'
-                }`}>
-                  {resource.category}
-                </div>
-                <div className="flex items-center space-x-1">
-                  <Calendar className={`w-3 h-3 ${isDark ? 'text-slate-400' : 'text-blue-600/70'}`} />
-                  <span className={`text-xs ${isDark ? 'text-slate-400' : 'text-blue-600/70'}`}>
-                    {resource.date}
-                  </span>
-                </div>
+      <div className="relative p-4 flex flex-col h-full">
+        {/* Header with icon and date */}
+        <div className="flex items-center justify-between mb-3">
+          <div className={`p-2 rounded-lg transition-all duration-300 group-hover:scale-110 ${
+            isDark ? 'bg-blue-500/20 text-blue-400' : 'bg-blue-100/80 text-blue-600'
+          }`}>
+            <FileText className="w-5 h-5" />
+          </div>
+          <div className="flex items-center space-x-1">
+            <Calendar className={`w-3 h-3 ${isDark ? 'text-slate-400' : 'text-blue-600/70'}`} />
+            <span className={`text-xs ${isDark ? 'text-slate-400' : 'text-blue-600/70'}`}>
+              {resource.date}
+            </span>
+          </div>
+        </div>
+
+        {/* Category badge */}
+        <div className={`inline-block px-2 py-1 rounded-full text-xs font-medium mb-3 self-start ${
+          isDark ? 'bg-slate-700/50 text-slate-300' : 'bg-blue-50/80 text-blue-700'
+        }`}>
+          {resource.category}
+        </div>
+
+        {/* Content - grows to fill space */}
+        <div className="flex-grow">
+          <h3 className={`text-base font-semibold mb-2 leading-tight transition-colors duration-300 line-clamp-2 ${
+            isDark ? 'text-white group-hover:text-blue-300' : 'text-gray-800 group-hover:text-blue-600'
+          }`}>
+            {resource.title}
+          </h3>
+          <p className={`text-sm leading-relaxed transition-colors duration-300 line-clamp-2 ${
+            isDark ? 'text-slate-400' : 'text-blue-600/70'
+          }`}>
+            Comprehensive interview questions and answers for {resource.category.toLowerCase()} topics. Perfect for interview preparation.
+          </p>
+        </div>
+
+        {/* Download button at bottom */}
+        <button
+          onClick={handleDownload}
+          className={`mt-4 w-full flex items-center justify-center space-x-2 py-2.5 px-4 rounded-lg transition-all duration-300 hover:scale-105 active:scale-95 ${
+            isDark 
+              ? 'bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 border border-blue-400/30' 
+              : 'bg-blue-100/80 hover:bg-blue-200/80 text-blue-600 border border-blue-300/50'
+          }`}
+        >
+          <Download className="w-4 h-4" />
+          <span className="text-sm font-medium">Download PDF</span>
+        </button>
+      </div>
+    </div>
+  );
+};
               </div>
               <h3 className={`text-lg font-semibold mb-2 leading-tight transition-colors duration-300 ${
                 isDark ? 'text-white group-hover:text-blue-300' : 'text-gray-800 group-hover:text-blue-600'
@@ -432,7 +400,7 @@ const YouTubeVideoCard: React.FC<{ video: YouTubeVideo; isDark: boolean }> = ({ 
   };
 
   return (
-    <div className={`group relative overflow-hidden rounded-2xl border transition-all duration-500 hover:scale-[1.02] hover:-translate-y-1 hover:-rotate-1 cursor-pointer flex-shrink-0 w-80 ${
+    <div className={`group relative overflow-hidden rounded-2xl border transition-all duration-500 hover:scale-[1.02] hover:-translate-y-1 cursor-pointer h-64 flex flex-col ${
       isDark 
         ? 'bg-slate-800/30 border-slate-700/30 hover:border-red-400/40 hover:bg-slate-800/50' 
         : 'bg-white/70 border-blue-200/40 hover:border-red-400/60 hover:bg-white/90 hover:shadow-red-200/25'
@@ -449,34 +417,34 @@ const YouTubeVideoCard: React.FC<{ video: YouTubeVideo; isDark: boolean }> = ({ 
           <img
             src={thumbnailUrl}
             alt={video.title}
-            className="w-full h-44 object-cover group-hover:scale-105 transition-transform duration-700"
+            className="w-full h-32 object-cover group-hover:scale-105 transition-transform duration-700"
             onError={(e) => {
               const target = e.target as HTMLImageElement;
               target.src = `https://img.youtube.com/vi/${video.videoId}/hqdefault.jpg`;
             }}
           />
           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-500 flex items-center justify-center">
-            <div className="bg-red-500/90 group-hover:bg-red-500 rounded-full p-4 opacity-90 group-hover:opacity-100 transition-all duration-500 transform group-hover:scale-110 active:scale-95">
-              <div className="w-0 h-0 border-l-[16px] border-l-white border-y-[10px] border-y-transparent ml-1" />
+            <div className="bg-red-500/90 group-hover:bg-red-500 rounded-full p-3 opacity-90 group-hover:opacity-100 transition-all duration-500 transform group-hover:scale-110 active:scale-95">
+              <div className="w-0 h-0 border-l-[12px] border-l-white border-y-[8px] border-y-transparent ml-1" />
             </div>
           </div>
-          <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0 group-hover:rotate-12">
+          <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
             <ExternalLink className="w-5 h-5 text-white drop-shadow-lg" />
           </div>
         </div>
         
-        <div className="relative p-4">
+        <div className="relative p-3 flex-grow flex flex-col">
           <div className={`inline-block px-2 py-1 rounded-full text-xs font-medium mb-2 transition-all duration-300 group-hover:scale-105 ${
             isDark ? 'bg-slate-700/50 text-slate-300' : 'bg-blue-50/80 text-blue-700'
           }`}>
             {video.category}
           </div>
-          <h3 className={`text-base font-semibold leading-tight transition-colors duration-300 ${
+          <h3 className={`text-sm font-semibold leading-tight transition-colors duration-300 line-clamp-2 flex-grow ${
             isDark ? 'text-white group-hover:text-red-300' : 'text-gray-800 group-hover:text-red-600'
           }`}>
             {video.title}
           </h3>
-          <p className={`text-sm mt-2 leading-relaxed transition-colors duration-300 ${isDark ? 'text-slate-400' : 'text-blue-600/70'}`}>
+          <p className={`text-xs mt-2 leading-relaxed transition-colors duration-300 ${isDark ? 'text-slate-400' : 'text-blue-600/70'}`}>
             Click to watch on YouTube
           </p>
         </div>
@@ -862,118 +830,70 @@ function App() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16 space-y-16 sm:space-y-20 lg:space-y-24">
         {/* Interview Questions Section */}
         <div id="materials">
-          <section className="space-y-6">
-            <div className="text-center">
-              <div className="flex items-center justify-center space-x-3 mb-4">
-                <FileText className={`w-6 h-6 sm:w-8 sm:h-8 transition-all duration-300 hover:scale-110 hover:rotate-12 ${
-                  isDark ? 'text-blue-400' : 'text-blue-600'
-                }`} />
-                <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-bold transition-colors duration-700 leading-tight ${
-                  isDark ? 'text-white' : 'text-gray-900'
-                }`}>
-                  Interview Questions
-                </h2>
+          <HorizontalScrollSection
+            title="Interview Questions"
+            subtitle="I add 5 new PDFs daily with the latest interview questions. Track your progress with dates!"
+            icon={<FileText className={`w-6 h-6 sm:w-8 sm:h-8 transition-all duration-300 hover:scale-110 hover:rotate-12 ${
+              isDark ? 'text-blue-400' : 'text-blue-600'
+            }`} />}
+            isDark={isDark}
+          >
+            {pdfResources.map((resource, index) => (
+              <div
+                key={resource.id}
+                style={{ animationDelay: `${index * 150}ms` }}
+                className="animate-fade-in-up"
+              >
+                <PDFResourceCard resource={resource} isDark={isDark} />
               </div>
-              <p className={`text-sm sm:text-base lg:text-lg max-w-2xl mx-auto transition-colors duration-700 px-4 leading-relaxed ${
-                isDark ? 'text-slate-300' : 'text-blue-700/80'
-              }`}>
-                I add 5 new PDFs daily with the latest interview questions. Track your progress with dates!
-              </p>
-            </div>
-
-            <div className="relative">
-              {/* 2-row grid layout */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 overflow-x-auto scrollbar-hide pb-4">
-                {pdfResources.map((resource, index) => (
-                  <div
-                    key={resource.id}
-                    style={{ animationDelay: `${index * 150}ms` }}
-                    className="animate-fade-in-up"
-                  >
-                    <PDFResourceCard resource={resource} isDark={isDark} />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
+            ))}
+          </HorizontalScrollSection>
         </div>
 
         {/* YouTube Videos Section */}
         <div id="videos">
-          <section className="space-y-6">
-            <div className="text-center">
-              <div className="flex items-center justify-center space-x-3 mb-4">
-                <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:rotate-12 ${
-                  isDark ? 'bg-red-500/20 text-red-400' : 'bg-red-100/80 text-red-600'
-                }`}>
-                  <div className="w-0 h-0 border-l-[8px] sm:border-l-[12px] border-l-current border-y-[5px] sm:border-y-[8px] border-y-transparent ml-0.5 sm:ml-1" />
-                </div>
-                <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-bold transition-colors duration-700 leading-tight ${
-                  isDark ? 'text-white' : 'text-gray-900'
-                }`}>
-                  Video Tutorials
-                </h2>
+          <HorizontalScrollSection
+            title="Video Tutorials"
+            subtitle="Learn from industry professionals with hands-on tutorials and real-world examples"
+            icon={<div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:rotate-12 ${
+              isDark ? 'bg-red-500/20 text-red-400' : 'bg-red-100/80 text-red-600'
+            }`}>
+              <div className="w-0 h-0 border-l-[8px] sm:border-l-[12px] border-l-current border-y-[5px] sm:border-y-[8px] border-y-transparent ml-0.5 sm:ml-1" />
+            </div>}
+            isDark={isDark}
+          >
+            {youtubeVideos.map((video, index) => (
+              <div
+                key={video.id}
+                style={{ animationDelay: `${index * 150}ms` }}
+                className="animate-fade-in-up"
+              >
+                <YouTubeVideoCard video={video} isDark={isDark} />
               </div>
-              <p className={`text-sm sm:text-base lg:text-lg max-w-2xl mx-auto transition-colors duration-700 px-4 leading-relaxed ${
-                isDark ? 'text-slate-300' : 'text-blue-700/80'
-              }`}>
-                Learn from industry professionals with hands-on tutorials and real-world examples
-              </p>
-            </div>
-
-            <div className="relative">
-              {/* 2-row grid layout */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 overflow-x-auto scrollbar-hide pb-4">
-                {youtubeVideos.map((video, index) => (
-                  <div
-                    key={video.id}
-                    style={{ animationDelay: `${index * 150}ms` }}
-                    className="animate-fade-in-up"
-                  >
-                    <YouTubeVideoCard video={video} isDark={isDark} />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
+            ))}
+          </HorizontalScrollSection>
         </div>
 
         {/* Resumes Section */}
         <div id="resumes">
-          <section className="space-y-6">
-            <div className="text-center">
-              <div className="flex items-center justify-center space-x-3 mb-4">
-                <User className={`w-6 h-6 sm:w-8 sm:h-8 transition-all duration-300 hover:scale-110 hover:rotate-12 ${
-                  isDark ? 'text-green-400' : 'text-green-600'
-                }`} />
-                <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-bold transition-colors duration-700 leading-tight ${
-                  isDark ? 'text-white' : 'text-gray-900'
-                }`}>
-                  Resume Templates
-                </h2>
+          <HorizontalScrollSection
+            title="Resume Templates"
+            subtitle="Professional resume templates tailored for data engineering roles at all experience levels"
+            icon={<User className={`w-6 h-6 sm:w-8 sm:h-8 transition-all duration-300 hover:scale-110 hover:rotate-12 ${
+              isDark ? 'text-green-400' : 'text-green-600'
+            }`} />}
+            isDark={isDark}
+          >
+            {resumes.map((resume, index) => (
+              <div
+                key={resume.id}
+                style={{ animationDelay: `${index * 150}ms` }}
+                className="animate-fade-in-up"
+              >
+                <ResumeCard resume={resume} isDark={isDark} />
               </div>
-              <p className={`text-sm sm:text-base lg:text-lg max-w-2xl mx-auto transition-colors duration-700 px-4 leading-relaxed ${
-                isDark ? 'text-slate-300' : 'text-blue-700/80'
-              }`}>
-                Professional resume templates tailored for data engineering roles at all experience levels
-              </p>
-            </div>
-
-            <div className="relative">
-              {/* 2-row grid layout */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 overflow-x-auto scrollbar-hide pb-4">
-                {resumes.map((resume, index) => (
-                  <div
-                    key={resume.id}
-                    style={{ animationDelay: `${index * 150}ms` }}
-                    className="animate-fade-in-up"
-                  >
-                    <ResumeCard resume={resume} isDark={isDark} />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
+            ))}
+          </HorizontalScrollSection>
         </div>
       </main>
 
