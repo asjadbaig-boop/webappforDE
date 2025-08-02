@@ -437,7 +437,7 @@ const ResumeCard: React.FC<{ resume: Resume; isDark: boolean }> = ({ resume, isD
   };
 
   return (
-    <div className={`group relative overflow-hidden rounded-2xl border transition-all duration-500 hover:scale-[1.02] hover:-translate-y-1 hover:rotate-1 flex-shrink-0 w-80 ${
+    <div className={`group relative overflow-hidden rounded-2xl border transition-all duration-500 hover:scale-[1.02] hover:-translate-y-1 h-64 flex flex-col ${
       isDark 
         ? 'bg-slate-800/30 border-slate-700/30 hover:border-green-400/40 hover:bg-slate-800/50' 
         : 'bg-white/70 border-blue-200/40 hover:border-green-400/60 hover:bg-white/90 hover:shadow-green-200/25'
@@ -448,62 +448,62 @@ const ResumeCard: React.FC<{ resume: Resume; isDark: boolean }> = ({ resume, isD
           : 'bg-gradient-to-br from-green-500/5 to-emerald-500/5'
       }`} />
       
-      <div className="relative p-6">
-        <div className="flex items-start justify-between">
-          <div className="flex items-start space-x-4 flex-grow">
-            <div className={`flex-shrink-0 p-3 rounded-xl transition-all duration-300 group-hover:scale-110 group-hover:rotate-12 ${
-              isDark ? 'bg-green-500/20 text-green-400' : 'bg-green-100/80 text-green-600'
-            }`}>
-              <User className="w-6 h-6" />
-            </div>
-            <div className="flex-grow">
-              <div className={`inline-flex items-center space-x-1 px-2 py-1 rounded-full text-xs font-medium mb-2 transition-all duration-300 group-hover:scale-105 ${
-                isDark ? 'bg-slate-700/50 text-slate-300' : 'bg-blue-50/80 text-blue-700'
-              }`}>
-                <Briefcase className="w-3 h-3" />
-                <span>{resume.experience}</span>
-              </div>
-              <h3 className={`text-lg font-semibold mb-2 leading-tight transition-colors duration-300 ${
-                isDark ? 'text-white group-hover:text-green-300' : 'text-gray-800 group-hover:text-green-600'
-              }`}>
-                {resume.title}
-              </h3>
-              <div className="flex flex-wrap gap-1 mb-2">
-                {resume.skills.slice(0, 3).map((skill, index) => (
-                  <span
-                    key={index}
-                    className={`px-2 py-1 rounded-md text-xs transition-all duration-300 hover:scale-105 ${
-                      isDark ? 'bg-slate-600/50 text-slate-300' : 'bg-blue-100/60 text-blue-700'
-                    }`}
-                  >
-                    {skill}
-                  </span>
-                ))}
-                {resume.skills.length > 3 && (
-                  <span className={`px-2 py-1 rounded-md text-xs ${
-                    isDark ? 'bg-slate-600/50 text-slate-400' : 'bg-blue-100/60 text-blue-600'
-                  }`}>
-                    +{resume.skills.length - 3} more
-                  </span>
-                )}
-              </div>
-              <p className={`text-sm leading-relaxed transition-colors duration-300 ${isDark ? 'text-slate-400' : 'text-blue-600/70'}`}>
-                Professional resume template
-              </p>
-            </div>
+      <div className="relative p-4 flex flex-col h-full">
+        <div className="flex items-start justify-between mb-3">
+          <div className={`flex-shrink-0 p-2 rounded-lg transition-all duration-300 group-hover:scale-110 ${
+            isDark ? 'bg-green-500/20 text-green-400' : 'bg-green-100/80 text-green-600'
+          }`}>
+            <User className="w-5 h-5" />
           </div>
-          <button
-            onClick={handleDownload}
-            className={`flex-shrink-0 ml-4 p-3 rounded-xl transition-all duration-300 group-hover:scale-110 hover:rotate-12 active:scale-95 ${
-              isDark 
-                ? 'bg-green-500/20 hover:bg-green-500/30 text-green-400' 
-                : 'bg-green-100/80 hover:bg-green-200/80 text-green-600'
-            }`}
-            title="Download Resume"
-          >
-            <Download className="w-5 h-5" />
-          </button>
+          <div className={`inline-flex items-center space-x-1 px-2 py-1 rounded-full text-xs font-medium ${
+            isDark ? 'bg-slate-700/50 text-slate-300' : 'bg-blue-50/80 text-blue-700'
+          }`}>
+            <Briefcase className="w-3 h-3" />
+            <span>{resume.experience}</span>
+          </div>
         </div>
+        
+        <div className="flex-grow">
+          <h3 className={`text-base font-semibold mb-2 leading-tight transition-colors duration-300 line-clamp-2 ${
+            isDark ? 'text-white group-hover:text-green-300' : 'text-gray-800 group-hover:text-green-600'
+          }`}>
+            {resume.title}
+          </h3>
+          <div className="flex flex-wrap gap-1 mb-2">
+            {resume.skills.slice(0, 3).map((skill, index) => (
+              <span
+                key={index}
+                className={`px-2 py-1 rounded-md text-xs transition-all duration-300 hover:scale-105 ${
+                  isDark ? 'bg-slate-600/50 text-slate-300' : 'bg-blue-100/60 text-blue-700'
+                }`}
+              >
+                {skill}
+              </span>
+            ))}
+            {resume.skills.length > 3 && (
+              <span className={`px-2 py-1 rounded-md text-xs ${
+                isDark ? 'bg-slate-600/50 text-slate-400' : 'bg-blue-100/60 text-blue-600'
+              }`}>
+                +{resume.skills.length - 3} more
+              </span>
+            )}
+          </div>
+          <p className={`text-sm leading-relaxed transition-colors duration-300 ${isDark ? 'text-slate-400' : 'text-blue-600/70'}`}>
+            Professional resume template
+          </p>
+        </div>
+        
+        <button
+          onClick={handleDownload}
+          className={`mt-4 w-full flex items-center justify-center space-x-2 py-2.5 px-4 rounded-lg transition-all duration-300 hover:scale-105 active:scale-95 ${
+            isDark 
+              ? 'bg-green-500/20 hover:bg-green-500/30 text-green-400 border border-green-400/30' 
+              : 'bg-green-100/80 hover:bg-green-200/80 text-green-600 border border-green-300/50'
+          }`}
+        >
+          <Download className="w-4 h-4" />
+          <span className="text-sm font-medium">Download Resume</span>
+        </button>
       </div>
     </div>
   );
@@ -803,70 +803,118 @@ function App() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16 space-y-16 sm:space-y-20 lg:space-y-24">
         {/* Interview Questions Section */}
         <div id="materials">
-          <HorizontalScrollSection
-            title="Interview Questions"
-            subtitle="I add 5 new PDFs daily with the latest interview questions. Track your progress with dates!"
-            icon={<FileText className={`w-6 h-6 sm:w-8 sm:h-8 transition-all duration-300 hover:scale-110 hover:rotate-12 ${
-              isDark ? 'text-blue-400' : 'text-blue-600'
-            }`} />}
-            isDark={isDark}
-          >
-            {pdfResources.map((resource, index) => (
-              <div
-                key={resource.id}
-                style={{ animationDelay: `${index * 150}ms` }}
-                className="animate-fade-in-up"
-              >
-                <PDFResourceCard resource={resource} isDark={isDark} />
+          <section className="space-y-6">
+            <div className="text-center">
+              <div className="flex items-center justify-center space-x-3 mb-4">
+                <FileText className={`w-6 h-6 sm:w-8 sm:h-8 transition-all duration-300 hover:scale-110 hover:rotate-12 ${
+                  isDark ? 'text-blue-400' : 'text-blue-600'
+                }`} />
+                <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-bold transition-colors duration-700 leading-tight ${
+                  isDark ? 'text-white' : 'text-gray-900'
+                }`}>
+                  Interview Questions
+                </h2>
               </div>
-            ))}
-          </HorizontalScrollSection>
+              <p className={`text-sm sm:text-base lg:text-lg max-w-2xl mx-auto transition-colors duration-700 px-4 leading-relaxed ${
+                isDark ? 'text-slate-300' : 'text-blue-700/80'
+              }`}>
+                I add 5 new PDFs daily with the latest interview questions. Track your progress with dates!
+              </p>
+            </div>
+
+            <div className="relative">
+              {/* 2-row grid layout */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 overflow-x-auto scrollbar-hide pb-4">
+                {pdfResources.map((resource, index) => (
+                  <div
+                    key={resource.id}
+                    style={{ animationDelay: `${index * 150}ms` }}
+                    className="animate-fade-in-up"
+                  >
+                    <PDFResourceCard resource={resource} isDark={isDark} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
         </div>
 
         {/* YouTube Videos Section */}
         <div id="videos">
-          <HorizontalScrollSection
-            title="Video Tutorials"
-            subtitle="Learn from industry professionals with hands-on tutorials and real-world examples"
-            icon={<div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:rotate-12 ${
-              isDark ? 'bg-red-500/20 text-red-400' : 'bg-red-100/80 text-red-600'
-            }`}>
-              <div className="w-0 h-0 border-l-[8px] sm:border-l-[12px] border-l-current border-y-[5px] sm:border-y-[8px] border-y-transparent ml-0.5 sm:ml-1" />
-            </div>}
-            isDark={isDark}
-          >
-            {youtubeVideos.map((video, index) => (
-              <div
-                key={video.id}
-                style={{ animationDelay: `${index * 150}ms` }}
-                className="animate-fade-in-up"
-              >
-                <YouTubeVideoCard video={video} isDark={isDark} />
+          <section className="space-y-6">
+            <div className="text-center">
+              <div className="flex items-center justify-center space-x-3 mb-4">
+                <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:rotate-12 ${
+                  isDark ? 'bg-red-500/20 text-red-400' : 'bg-red-100/80 text-red-600'
+                }`}>
+                  <div className="w-0 h-0 border-l-[8px] sm:border-l-[12px] border-l-current border-y-[5px] sm:border-y-[8px] border-y-transparent ml-0.5 sm:ml-1" />
+                </div>
+                <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-bold transition-colors duration-700 leading-tight ${
+                  isDark ? 'text-white' : 'text-gray-900'
+                }`}>
+                  Video Tutorials
+                </h2>
               </div>
-            ))}
-          </HorizontalScrollSection>
+              <p className={`text-sm sm:text-base lg:text-lg max-w-2xl mx-auto transition-colors duration-700 px-4 leading-relaxed ${
+                isDark ? 'text-slate-300' : 'text-blue-700/80'
+              }`}>
+                Learn from industry professionals with hands-on tutorials and real-world examples
+              </p>
+            </div>
+
+            <div className="relative">
+              {/* 2-row grid layout */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 overflow-x-auto scrollbar-hide pb-4">
+                {youtubeVideos.map((video, index) => (
+                  <div
+                    key={video.id}
+                    style={{ animationDelay: `${index * 150}ms` }}
+                    className="animate-fade-in-up"
+                  >
+                    <YouTubeVideoCard video={video} isDark={isDark} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
         </div>
 
         {/* Resumes Section */}
         <div id="resumes">
-          <HorizontalScrollSection
-            title="Resume Templates"
-            subtitle="Professional resume templates tailored for data engineering roles at all experience levels"
-            icon={<User className={`w-6 h-6 sm:w-8 sm:h-8 transition-all duration-300 hover:scale-110 hover:rotate-12 ${
-              isDark ? 'text-green-400' : 'text-green-600'
-            }`} />}
-            isDark={isDark}
-          >
-            {resumes.map((resume, index) => (
-              <div
-                key={resume.id}
-                style={{ animationDelay: `${index * 150}ms` }}
-                className="animate-fade-in-up"
-              >
-                <ResumeCard resume={resume} isDark={isDark} />
+          <section className="space-y-6">
+            <div className="text-center">
+              <div className="flex items-center justify-center space-x-3 mb-4">
+                <User className={`w-6 h-6 sm:w-8 sm:h-8 transition-all duration-300 hover:scale-110 hover:rotate-12 ${
+                  isDark ? 'text-green-400' : 'text-green-600'
+                }`} />
+                <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-bold transition-colors duration-700 leading-tight ${
+                  isDark ? 'text-white' : 'text-gray-900'
+                }`}>
+                  Resume Templates
+                </h2>
               </div>
-            ))}
-          </HorizontalScrollSection>
+              <p className={`text-sm sm:text-base lg:text-lg max-w-2xl mx-auto transition-colors duration-700 px-4 leading-relaxed ${
+                isDark ? 'text-slate-300' : 'text-blue-700/80'
+              }`}>
+                Professional resume templates tailored for data engineering roles at all experience levels
+              </p>
+            </div>
+
+            <div className="relative">
+              {/* 2-row grid layout */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 overflow-x-auto scrollbar-hide pb-4">
+                {resumes.map((resume, index) => (
+                  <div
+                    key={resume.id}
+                    style={{ animationDelay: `${index * 150}ms` }}
+                    className="animate-fade-in-up"
+                  >
+                    <ResumeCard resume={resume} isDark={isDark} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
         </div>
       </main>
 
