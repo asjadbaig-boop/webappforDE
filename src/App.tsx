@@ -364,33 +364,6 @@ const PDFResourceCard: React.FC<{ resource: PDFResource; isDark: boolean }> = ({
     </div>
   );
 };
-              </div>
-              <h3 className={`text-lg font-semibold mb-2 leading-tight transition-colors duration-300 ${
-                isDark ? 'text-white group-hover:text-blue-300' : 'text-gray-800 group-hover:text-blue-600'
-              }`}>
-                {resource.title}
-              </h3>
-              <p className={`text-sm leading-relaxed transition-colors duration-300 ${isDark ? 'text-slate-400' : 'text-blue-600/70'}`}>
-                Interview questions PDF • Click to download
-              </p>
-            </div>
-          </div>
-          <button
-            onClick={handleDownload}
-            className={`flex-shrink-0 ml-4 p-3 rounded-xl transition-all duration-300 group-hover:scale-110 hover:rotate-12 active:scale-95 ${
-              isDark 
-                ? 'bg-blue-500/20 hover:bg-blue-500/30 text-blue-400' 
-                : 'bg-blue-100/80 hover:bg-blue-200/80 text-blue-600'
-            }`}
-            title="Download PDF"
-          >
-            <Download className="w-5 h-5" />
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 const YouTubeVideoCard: React.FC<{ video: YouTubeVideo; isDark: boolean }> = ({ video, isDark }) => {
   const thumbnailUrl = `https://img.youtube.com/vi/${video.videoId}/maxresdefault.jpg`;
