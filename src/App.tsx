@@ -713,45 +713,6 @@ const ResumeCard_OLD: React.FC<{ resume: Resume; isDark: boolean }> = ({ resume,
 function App() {
   const [isDark, setIsDark] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [selectedVideoSegment, setSelectedVideoSegment] = useState<string | null>(null);
-  const [isVideoPopupOpen, setIsVideoPopupOpen] = useState(false);
-
-  const videoSegments = [
-    {
-      name: 'Pipeline Building',
-      icon: <Database className="w-6 h-6" />,
-      description: 'Learn to build robust data pipelines from scratch'
-    },
-    {
-      name: 'End-to-End Projects',
-      icon: <Cpu className="w-6 h-6" />,
-      description: 'Complete project walkthroughs and implementations'
-    },
-    {
-      name: 'Scenario Based Questions',
-      icon: <Award className="w-6 h-6" />,
-      description: 'Real interview scenarios and problem-solving'
-    },
-    {
-      name: 'Career Guidance',
-      icon: <Briefcase className="w-6 h-6" />,
-      description: 'Career advice and professional development'
-    }
-  ];
-
-  const getVideosForSegment = (segment: string) => {
-    return youtubeVideos.filter(video => video.segment === segment);
-  };
-
-  const handleSegmentClick = (segment: string) => {
-    setSelectedVideoSegment(segment);
-    setIsVideoPopupOpen(true);
-  };
-
-  const closeVideoPopup = () => {
-    setIsVideoPopupOpen(false);
-    setSelectedVideoSegment(null);
-  };
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
