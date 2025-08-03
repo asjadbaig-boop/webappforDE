@@ -15,6 +15,7 @@ interface YouTubeVideo {
   url: string;
   videoId: string;
   category: string;
+  segment: string;
 }
 
 interface Resume {
@@ -87,59 +88,99 @@ const pdfResources: PDFResource[] = [
 const youtubeVideos: YouTubeVideo[] = [
   {
     id: '1',
-    title: 'Data Engineering Career Path',
+    title: 'Complete Data Engineering Roadmap 2024',
     url: 'https://www.youtube.com/watch?v=xS82xt6wvzw',
     videoId: 'xS82xt6wvzw',
-    category: 'Career'
+    category: 'Career',
+    segment: 'Career Guidance'
   },
   {
     id: '2',
-    title: 'Apache Kafka Deep Dive',
+    title: 'Building Real-time Data Pipeline with Kafka',
     url: 'https://www.youtube.com/watch?v=E8DTgn4cfcY',
     videoId: 'E8DTgn4cfcY',
-    category: 'Streaming'
+    category: 'Streaming',
+    segment: 'Pipeline Building'
   },
   {
     id: '3',
-    title: 'Building Data Pipelines',
+    title: 'End-to-End Data Pipeline Project',
     url: 'https://www.youtube.com/watch?v=DVviilX5p7Q',
     videoId: 'DVviilX5p7Q',
-    category: 'Python'
+    category: 'Python',
+    segment: 'End-to-End Projects'
   },
   {
     id: '4',
-    title: 'Docker for Data Engineers',
+    title: 'Data Engineering Interview Questions',
     url: 'https://www.youtube.com/watch?v=3c-iBn73dDE',
     videoId: '3c-iBn73dDE',
-    category: 'DevOps'
+    category: 'Interview',
+    segment: 'Scenario Based Questions'
   },
   {
     id: '5',
-    title: 'SQL Optimization Techniques',
+    title: 'Advanced SQL for Data Engineers',
     url: 'https://www.youtube.com/watch?v=BHwzDmr6d7s',
     videoId: 'BHwzDmr6d7s',
-    category: 'SQL'
+    category: 'SQL',
+    segment: 'Pipeline Building'
   },
   {
     id: '6',
-    title: 'Data Lake Architecture',
+    title: 'Building Modern Data Lake Architecture',
     url: 'https://www.youtube.com/watch?v=mXVfq5bDKRI',
     videoId: 'mXVfq5bDKRI',
-    category: 'Architecture'
+    category: 'Architecture',
+    segment: 'End-to-End Projects'
   },
   {
     id: '7',
-    title: 'Apache Airflow Tutorial',
+    title: 'System Design for Data Engineers',
     url: 'https://www.youtube.com/watch?v=K9AnJ9_ZAXE',
     videoId: 'K9AnJ9_ZAXE',
-    category: 'Orchestration'
+    category: 'System Design',
+    segment: 'Scenario Based Questions'
   },
   {
     id: '8',
-    title: 'Real-time Analytics',
+    title: 'Complete ETL Project with Python',
     url: 'https://www.youtube.com/watch?v=7wmmxJlBrOw',
     videoId: '7wmmxJlBrOw',
-    category: 'Analytics'
+    category: 'ETL',
+    segment: 'End-to-End Projects'
+  },
+  {
+    id: '9',
+    title: 'Data Pipeline Monitoring & Alerting',
+    url: 'https://www.youtube.com/watch?v=abc123',
+    videoId: 'abc123',
+    category: 'Monitoring',
+    segment: 'Pipeline Building'
+  },
+  {
+    id: '10',
+    title: 'Career Transition to Data Engineering',
+    url: 'https://www.youtube.com/watch?v=def456',
+    videoId: 'def456',
+    category: 'Career',
+    segment: 'Career Guidance'
+  },
+  {
+    id: '11',
+    title: 'Handling Data Engineering Challenges',
+    url: 'https://www.youtube.com/watch?v=ghi789',
+    videoId: 'ghi789',
+    category: 'Problem Solving',
+    segment: 'Scenario Based Questions'
+  },
+  {
+    id: '12',
+    title: 'Building Scalable Data Architecture',
+    url: 'https://www.youtube.com/watch?v=jkl012',
+    videoId: 'jkl012',
+    category: 'Architecture',
+    segment: 'End-to-End Projects'
   }
 ];
 
