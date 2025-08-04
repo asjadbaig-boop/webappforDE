@@ -1251,6 +1251,15 @@ function App() {
         </div>
       </main>
 
+      {/* Video Popup */}
+      <VideoPopup 
+        isOpen={isVideoPopupOpen}
+        onClose={closeVideoPopup}
+        segment={selectedSegment}
+        videos={youtubeVideos}
+        isDark={isDark}
+      />
+
       {/* Footer */}
       <footer className={`relative backdrop-blur-sm border-t mt-16 sm:mt-20 lg:mt-24 transition-all duration-700 ${
         isDark 
