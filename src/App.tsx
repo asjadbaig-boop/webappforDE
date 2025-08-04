@@ -18,6 +18,14 @@ interface YouTubeVideo {
   segment: string;
 }
 
+interface VideoSegment {
+  id: string;
+  title: string;
+  description: string;
+  icon: React.ReactNode;
+  videoCount: number;
+  color: string;
+}
 interface Resume {
   id: string;
   title: string;
@@ -184,6 +192,41 @@ const youtubeVideos: YouTubeVideo[] = [
   }
 ];
 
+const videoSegments: VideoSegment[] = [
+  {
+    id: 'pipeline-building',
+    title: 'Pipeline Building',
+    description: 'Learn to build robust data pipelines with modern tools and best practices',
+    icon: <Cpu className="w-6 h-6" />,
+    videoCount: youtubeVideos.filter(v => v.segment === 'Pipeline Building').length,
+    color: 'blue'
+  },
+  {
+    id: 'end-to-end-projects',
+    title: 'End-to-End Projects',
+    description: 'Complete project walkthroughs from data ingestion to visualization',
+    icon: <Globe className="w-6 h-6" />,
+    videoCount: youtubeVideos.filter(v => v.segment === 'End-to-End Projects').length,
+    color: 'green'
+  },
+  {
+    id: 'scenario-based-questions',
+    title: 'Scenario Based Questions',
+    description: 'Real-world interview scenarios and problem-solving approaches',
+    icon: <Award className="w-6 h-6" />,
+    videoCount: youtubeVideos.filter(v => v.segment === 'Scenario Based Questions').length,
+    color: 'purple'
+  },
+  {
+    id: 'career-guidance',
+    title: 'Career Guidance',
+    description: 'Professional development and career transition advice',
+    icon: <User className="w-6 h-6" />,
+    videoCount: youtubeVideos.filter(v => v.segment === 'Career Guidance').length,
+    color: 'orange'
+  }
+];
+
 const resumes: Resume[] = [
   {
     id: '1',
@@ -247,9 +290,9 @@ const LinkedInContact: React.FC<{ isDark: boolean }> = ({ isDark }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end">
-      <div className={`transition-all duration-500 ${isExpanded ? 'transform translate-y-0' : 'transform translate-y-2'}`}>
-        {isExpanded && (
+    <div className="fixed bottom-6 right-6 z-50">
+      <div className="flex flex-col items-end">
+        <div className={`transition-all duration-500 ${isExpanded ? 'transform translate-y-0 opacity-100' : 'transform translate-y-2 opacity-0 pointer-events-none'}`}>
           <div className={`mb-4 p-4 rounded-2xl shadow-2xl backdrop-blur-md border transition-all duration-500 transform w-64 ${
             isDark 
               ? 'bg-slate-800/90 border-slate-700/50 text-white' 
@@ -276,23 +319,23 @@ const LinkedInContact: React.FC<{ isDark: boolean }> = ({ isDark }) => {
               <span>Connect on LinkedIn</span>
             </a>
           </div>
-        )}
-      </div>
+        </div>
       
-      <button
-        onClick={() => setIsExpanded(!isExpanded)}
-        className={`w-14 h-14 rounded-full shadow-2xl transition-all duration-500 hover:scale-110 active:scale-95 flex items-center justify-center group flex-shrink-0 ${
+        <button
+          onClick={() => setIsExpanded(!isExpanded)}
+          className={`w-14 h-14 rounded-full shadow-2xl transition-all duration-500 hover:scale-110 active:scale-95 flex items-center justify-center group flex-shrink-0 ${
           isDark 
             ? 'bg-blue-600 hover:bg-blue-700 text-white' 
             : 'bg-blue-600 hover:bg-blue-700 text-white'
         }`}
-      >
-        {isExpanded ? (
-          <X className="w-6 h-6 transition-transform duration-300 rotate-90" />
-        ) : (
-          <Linkedin className="w-6 h-6 transition-transform duration-300 group-hover:scale-110" />
-        )}
-      </button>
+        >
+          {isExpanded ? (
+            <X className="w-6 h-6 transition-transform duration-300 rotate-90" />
+          ) : (
+            <Linkedin className="w-6 h-6 transition-transform duration-300 group-hover:scale-110" />
+          )}
+        </button>
+      </div>
     </div>
   );
 };
@@ -365,11 +408,11 @@ const HorizontalScrollSection: React.FC<{
         {canScrollLeft && (
           <button
             onClick={scrollLeft}
-            className={`absolute left-2 top-1/2 -translate-y-1/2 z-10 p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 active:scale-95 ${
+            className={`absolute left-4 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full shadow-2xl backdrop-blur-md transition-all duration-300 hover:scale-110 active:scale-95 ${
               isDark 
-                ? 'bg-slate-800/90 hover:bg-slate-700/90 text-blue-400 border border-slate-600/50' 
-                : 'bg-white/90 hover:bg-white text-blue-600 border border-blue-200/50'
-            } backdrop-blur-md`}
+                ? 'bg-slate-800/95 hover:bg-slate-700/95 text-blue-400 border border-slate-600/50 shadow-slate-900/50' 
+                : 'bg-white/95 hover:bg-white text-blue-600 border border-blue-200/50 shadow-blue-900/20'
+            }`}
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
@@ -379,11 +422,11 @@ const HorizontalScrollSection: React.FC<{
         {canScrollRight && (
           <button
             onClick={scrollRight}
-            className={`absolute right-2 top-1/2 -translate-y-1/2 z-10 p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 active:scale-95 ${
+            className={`absolute right-4 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full shadow-2xl backdrop-blur-md transition-all duration-300 hover:scale-110 active:scale-95 ${
               isDark 
-                ? 'bg-slate-800/90 hover:bg-slate-700/90 text-blue-400 border border-slate-600/50' 
-                : 'bg-white/90 hover:bg-white text-blue-600 border border-blue-200/50'
-            } backdrop-blur-md`}
+                ? 'bg-slate-800/95 hover:bg-slate-700/95 text-blue-400 border border-slate-600/50 shadow-slate-900/50' 
+                : 'bg-white/95 hover:bg-white text-blue-600 border border-blue-200/50 shadow-blue-900/20'
+            }`}
           >
             <ChevronRight className="w-5 h-5" />
           </button>
@@ -392,7 +435,7 @@ const HorizontalScrollSection: React.FC<{
         {/* Scrollable content */}
         <div 
           ref={scrollContainerRef}
-          className="flex space-x-4 overflow-x-auto scrollbar-hide pb-4 px-2"
+          className="flex space-x-4 overflow-x-auto scrollbar-hide pb-4 px-8"
           style={{ scrollSnapType: 'x mandatory' }}
         >
         {children}
@@ -404,16 +447,20 @@ const HorizontalScrollSection: React.FC<{
 
 const PDFResourceCard: React.FC<{ resource: PDFResource; isDark: boolean }> = ({ resource, isDark }) => {
   const handleDownload = () => {
-    const link = document.createElement('a');
-    link.href = resource.filename;
-    link.download = resource.title;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    if (resource.filename.includes('drive.google.com')) {
+      window.open(resource.filename, '_blank', 'noopener,noreferrer');
+    } else {
+      const link = document.createElement('a');
+      link.href = resource.filename;
+      link.download = resource.title;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
   };
 
   return (
-    <div className={`group relative overflow-hidden rounded-2xl border transition-all duration-500 hover:scale-[1.05] hover:-translate-y-2 hover:rotate-1 flex-shrink-0 w-72 h-80 flex flex-col ${
+    <div className={`group relative overflow-hidden rounded-2xl border transition-all duration-500 hover:scale-[1.03] hover:-translate-y-2 hover:rotate-1 flex-shrink-0 w-80 h-96 flex flex-col ${
       isDark 
         ? 'bg-slate-800/30 border-slate-700/30 hover:border-blue-400/40 hover:bg-slate-800/50' 
         : 'bg-white/70 border-blue-200/40 hover:border-blue-400/60 hover:bg-white/90 hover:shadow-blue-200/25'
@@ -427,10 +474,10 @@ const PDFResourceCard: React.FC<{ resource: PDFResource; isDark: boolean }> = ({
       <div className="relative p-6 flex flex-col h-full">
         {/* Header with icon and date */}
         <div className="flex items-center justify-between mb-4">
-          <div className={`p-3 rounded-xl transition-all duration-300 group-hover:scale-110 group-hover:rotate-12 ${
+          <div className={`p-4 rounded-xl transition-all duration-300 group-hover:scale-110 group-hover:rotate-12 ${
             isDark ? 'bg-blue-500/20 text-blue-400' : 'bg-blue-100/80 text-blue-600'
           }`}>
-            <FileText className="w-6 h-6" />
+            <FileText className="w-7 h-7" />
           </div>
           <div className="flex items-center space-x-1">
             <Calendar className={`w-3 h-3 ${isDark ? 'text-slate-400' : 'text-blue-600/70'}`} />
@@ -449,30 +496,101 @@ const PDFResourceCard: React.FC<{ resource: PDFResource; isDark: boolean }> = ({
 
         {/* Content - grows to fill space */}
         <div className="flex-grow">
-          <h3 className={`text-lg font-bold mb-3 leading-tight transition-colors duration-300 ${
+          <h3 className={`text-xl font-bold mb-4 leading-tight transition-colors duration-300 ${
             isDark ? 'text-white group-hover:text-blue-300' : 'text-gray-800 group-hover:text-blue-600'
           }`}>
             {resource.title}
           </h3>
-          <p className={`text-sm leading-relaxed transition-colors duration-300 line-clamp-3 ${
+          <p className={`text-sm leading-relaxed transition-colors duration-300 line-clamp-4 ${
             isDark ? 'text-slate-400' : 'text-blue-600/70'
           }`}>
-            Comprehensive interview questions and answers for {resource.category.toLowerCase()} topics. Perfect for interview preparation.
+            Comprehensive interview questions and answers for {resource.category.toLowerCase()} topics. Perfect for interview preparation and skill assessment. Updated regularly with industry-standard questions.
           </p>
         </div>
 
         {/* Download button at bottom */}
         <button
           onClick={handleDownload}
-          className={`mt-6 w-full flex items-center justify-center space-x-2 py-3 px-4 rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 group-hover:shadow-lg ${
+          className={`mt-6 w-full flex items-center justify-center space-x-2 py-4 px-4 rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 group-hover:shadow-lg font-semibold ${
             isDark 
               ? 'bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 border border-blue-400/30' 
               : 'bg-blue-100/80 hover:bg-blue-200/80 text-blue-600 border border-blue-300/50'
           }`}
         >
           <Download className="w-4 h-4 transition-transform duration-300 group-hover:rotate-12" />
-          <span className="text-sm font-semibold">Download PDF</span>
+          <span className="text-sm">
+            {resource.filename.includes('drive.google.com') ? 'View PDF' : 'Download PDF'}
+          </span>
         </button>
+      </div>
+    </div>
+  );
+};
+
+const VideoSegmentCard: React.FC<{ segment: VideoSegment; isDark: boolean; onClick: () => void }> = ({ segment, isDark, onClick }) => {
+  const getColorClasses = (color: string) => {
+    const colors = {
+      blue: isDark 
+        ? 'bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 border-blue-400/30 hover:border-blue-400/50' 
+        : 'bg-blue-100/80 hover:bg-blue-200/80 text-blue-600 border-blue-300/50 hover:border-blue-400/60',
+      green: isDark 
+        ? 'bg-green-500/20 hover:bg-green-500/30 text-green-400 border-green-400/30 hover:border-green-400/50' 
+        : 'bg-green-100/80 hover:bg-green-200/80 text-green-600 border-green-300/50 hover:border-green-400/60',
+      purple: isDark 
+        ? 'bg-purple-500/20 hover:bg-purple-500/30 text-purple-400 border-purple-400/30 hover:border-purple-400/50' 
+        : 'bg-purple-100/80 hover:bg-purple-200/80 text-purple-600 border-purple-300/50 hover:border-purple-400/60',
+      orange: isDark 
+        ? 'bg-orange-500/20 hover:bg-orange-500/30 text-orange-400 border-orange-400/30 hover:border-orange-400/50' 
+        : 'bg-orange-100/80 hover:bg-orange-200/80 text-orange-600 border-orange-300/50 hover:border-orange-400/60'
+    };
+    return colors[color as keyof typeof colors] || colors.blue;
+  };
+
+  return (
+    <div 
+      onClick={onClick}
+      className={`group relative overflow-hidden rounded-2xl border transition-all duration-500 hover:scale-[1.03] hover:-translate-y-2 hover:rotate-1 cursor-pointer flex-shrink-0 w-80 h-64 ${
+        isDark 
+          ? 'bg-slate-800/30 border-slate-700/30 hover:bg-slate-800/50' 
+          : 'bg-white/70 border-blue-200/40 hover:bg-white/90'
+      } backdrop-blur-md shadow-lg hover:shadow-2xl`} 
+      style={{ scrollSnapAlign: 'start' }}
+    >
+      <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500 ${
+        isDark 
+          ? 'bg-gradient-to-br from-blue-500/5 to-purple-500/5' 
+          : 'bg-gradient-to-br from-blue-500/5 to-purple-500/5'
+      }`} />
+      
+      <div className="relative p-6 h-full flex flex-col">
+        <div className="flex items-center justify-between mb-4">
+          <div className={`p-4 rounded-xl transition-all duration-300 group-hover:scale-110 group-hover:rotate-12 ${getColorClasses(segment.color)}`}>
+            {segment.icon}
+          </div>
+          <div className={`px-3 py-1.5 rounded-full text-xs font-medium ${
+            isDark ? 'bg-slate-700/50 text-slate-300' : 'bg-blue-50/80 text-blue-700'
+          }`}>
+            {segment.videoCount} videos
+          </div>
+        </div>
+        
+        <div className="flex-grow">
+          <h3 className={`text-xl font-bold mb-3 leading-tight transition-colors duration-300 ${
+            isDark ? 'text-white group-hover:text-blue-300' : 'text-gray-800 group-hover:text-blue-600'
+          }`}>
+            {segment.title}
+          </h3>
+          <p className={`text-sm leading-relaxed transition-colors duration-300 ${
+            isDark ? 'text-slate-400' : 'text-blue-600/70'
+          }`}>
+            {segment.description}
+          </p>
+        </div>
+        
+        <div className={`mt-4 flex items-center justify-center py-3 px-4 rounded-xl transition-all duration-300 group-hover:scale-105 ${getColorClasses(segment.color)}`}>
+          <span className="text-sm font-semibold">View Videos</span>
+          <ExternalLink className="w-4 h-4 ml-2 transition-transform duration-300 group-hover:rotate-12" />
+        </div>
       </div>
     </div>
   );
@@ -486,7 +604,7 @@ const YouTubeVideoCard: React.FC<{ video: YouTubeVideo; isDark: boolean }> = ({ 
   };
 
   return (
-    <div className={`group relative overflow-hidden rounded-2xl border transition-all duration-500 hover:scale-[1.05] hover:-translate-y-2 hover:rotate-1 cursor-pointer flex-shrink-0 w-72 h-80 ${
+    <div className={`group relative overflow-hidden rounded-2xl border transition-all duration-500 hover:scale-[1.03] hover:-translate-y-2 hover:rotate-1 cursor-pointer flex-shrink-0 w-80 h-72 ${
       isDark 
         ? 'bg-slate-800/30 border-slate-700/30 hover:border-red-400/40 hover:bg-slate-800/50' 
         : 'bg-white/70 border-blue-200/40 hover:border-red-400/60 hover:bg-white/90 hover:shadow-red-200/25'
@@ -504,15 +622,15 @@ const YouTubeVideoCard: React.FC<{ video: YouTubeVideo; isDark: boolean }> = ({ 
           <img
             src={thumbnailUrl}
             alt={video.title}
-            className="w-full h-40 object-cover group-hover:scale-110 transition-transform duration-700"
+            className="w-full h-36 object-cover group-hover:scale-110 transition-transform duration-700"
             onError={(e) => {
               const target = e.target as HTMLImageElement;
               target.src = `https://img.youtube.com/vi/${video.videoId}/hqdefault.jpg`;
             }}
           />
           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-500 flex items-center justify-center">
-            <div className="bg-red-500/90 group-hover:bg-red-500 rounded-full p-3 opacity-90 group-hover:opacity-100 transition-all duration-500 transform group-hover:scale-125 active:scale-95 group-hover:rotate-12">
-              <div className="w-0 h-0 border-l-[12px] border-l-white border-y-[8px] border-y-transparent ml-0.5" />
+            <div className="bg-red-500/90 group-hover:bg-red-500 rounded-full p-4 opacity-90 group-hover:opacity-100 transition-all duration-500 transform group-hover:scale-125 active:scale-95 group-hover:rotate-12">
+              <div className="w-0 h-0 border-l-[14px] border-l-white border-y-[10px] border-y-transparent ml-0.5" />
             </div>
           </div>
           <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-x-4 group-hover:translate-x-0 group-hover:rotate-45">
@@ -520,20 +638,82 @@ const YouTubeVideoCard: React.FC<{ video: YouTubeVideo; isDark: boolean }> = ({ 
           </div>
         </div>
         
-        <div className="relative p-4 flex-grow flex flex-col">
+        <div className="relative p-5 flex-grow flex flex-col">
           <div className={`inline-block px-3 py-1.5 rounded-full text-xs font-medium mb-3 self-start transition-all duration-300 group-hover:scale-105 ${
             isDark ? 'bg-slate-700/50 text-slate-300' : 'bg-blue-50/80 text-blue-700'
           }`}>
             {video.category}
           </div>
-          <h3 className={`text-base font-bold leading-tight transition-colors duration-300 line-clamp-2 flex-grow ${
+          <h3 className={`text-lg font-bold leading-tight transition-colors duration-300 line-clamp-2 flex-grow ${
             isDark ? 'text-white group-hover:text-red-300' : 'text-gray-800 group-hover:text-red-600'
           }`}>
             {video.title}
           </h3>
-          <p className={`text-sm mt-3 leading-relaxed transition-colors duration-300 ${isDark ? 'text-slate-400' : 'text-blue-600/70'}`}>
+          <p className={`text-xs mt-3 leading-relaxed transition-colors duration-300 ${isDark ? 'text-slate-400' : 'text-blue-600/70'}`}>
             Click to watch on YouTube
           </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const VideoPopup: React.FC<{ 
+  isOpen: boolean; 
+  onClose: () => void; 
+  segment: VideoSegment | null; 
+  videos: YouTubeVideo[]; 
+  isDark: boolean 
+}> = ({ isOpen, onClose, segment, videos, isDark }) => {
+  if (!isOpen || !segment) return null;
+
+  const segmentVideos = videos.filter(video => video.segment === segment.title);
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div 
+        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        onClick={onClose}
+      />
+      <div className={`relative w-full max-w-6xl max-h-[90vh] overflow-hidden rounded-3xl border shadow-2xl ${
+        isDark 
+          ? 'bg-slate-900/95 border-slate-700/50' 
+          : 'bg-white/95 border-blue-200/50'
+      } backdrop-blur-md`}>
+        <div className="flex items-center justify-between p-6 border-b border-opacity-20">
+          <div className="flex items-center space-x-4">
+            <div className={`p-3 rounded-xl ${
+              isDark ? 'bg-blue-500/20 text-blue-400' : 'bg-blue-100/80 text-blue-600'
+            }`}>
+              {segment.icon}
+            </div>
+            <div>
+              <h2 className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                {segment.title}
+              </h2>
+              <p className={`text-sm ${isDark ? 'text-slate-400' : 'text-blue-600/70'}`}>
+                {segmentVideos.length} videos available
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={onClose}
+            className={`p-3 rounded-xl transition-all duration-300 hover:scale-110 active:scale-95 ${
+              isDark 
+                ? 'bg-slate-800/50 hover:bg-slate-700/50 text-slate-400 hover:text-white' 
+                : 'bg-gray-100/50 hover:bg-gray-200/50 text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            <X className="w-6 h-6" />
+          </button>
+        </div>
+        
+        <div className="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {segmentVideos.map((video) => (
+              <YouTubeVideoCard key={video.id} video={video} isDark={isDark} />
+            ))}
+          </div>
         </div>
       </div>
     </div>
@@ -551,7 +731,7 @@ const ResumeCard: React.FC<{ resume: Resume; isDark: boolean }> = ({ resume, isD
   };
 
   return (
-    <div className={`group relative overflow-hidden rounded-2xl border transition-all duration-500 hover:scale-[1.05] hover:-translate-y-2 hover:-rotate-1 flex-shrink-0 w-72 h-80 ${
+    <div className={`group relative overflow-hidden rounded-2xl border transition-all duration-500 hover:scale-[1.03] hover:-translate-y-2 hover:-rotate-1 flex-shrink-0 w-80 h-96 ${
       isDark 
         ? 'bg-slate-800/30 border-slate-700/30 hover:border-green-400/40 hover:bg-slate-800/50' 
         : 'bg-white/70 border-blue-200/40 hover:border-green-400/60 hover:bg-white/90 hover:shadow-green-200/25'
@@ -564,10 +744,10 @@ const ResumeCard: React.FC<{ resume: Resume; isDark: boolean }> = ({ resume, isD
       
       <div className="relative p-6 h-full flex flex-col">
         <div className="flex items-center justify-between mb-4">
-          <div className={`p-3 rounded-xl transition-all duration-300 group-hover:scale-110 group-hover:rotate-12 ${
+          <div className={`p-4 rounded-xl transition-all duration-300 group-hover:scale-110 group-hover:rotate-12 ${
             isDark ? 'bg-green-500/20 text-green-400' : 'bg-green-100/80 text-green-600'
           }`}>
-            <User className="w-6 h-6" />
+            <User className="w-7 h-7" />
           </div>
           <div className={`inline-flex items-center space-x-1 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 group-hover:scale-105 ${
             isDark ? 'bg-slate-700/50 text-slate-300' : 'bg-blue-50/80 text-blue-700'
@@ -578,17 +758,17 @@ const ResumeCard: React.FC<{ resume: Resume; isDark: boolean }> = ({ resume, isD
         </div>
         
         <div className="flex-grow">
-          <h3 className={`text-lg font-bold mb-3 leading-tight transition-colors duration-300 ${
+          <h3 className={`text-xl font-bold mb-4 leading-tight transition-colors duration-300 ${
             isDark ? 'text-white group-hover:text-green-300' : 'text-gray-800 group-hover:text-green-600'
           }`}>
             {resume.title}
           </h3>
           
-          <div className="flex flex-wrap gap-2 mb-4">
+          <div className="flex flex-wrap gap-2 mb-6">
             {resume.skills.slice(0, 3).map((skill, index) => (
               <span
                 key={index}
-                className={`px-2 py-1 rounded-lg text-xs transition-all duration-300 hover:scale-105 ${
+                className={`px-3 py-1.5 rounded-lg text-xs transition-all duration-300 hover:scale-105 ${
                   isDark ? 'bg-slate-600/50 text-slate-300' : 'bg-blue-100/60 text-blue-700'
                 }`}
               >
@@ -607,13 +787,13 @@ const ResumeCard: React.FC<{ resume: Resume; isDark: boolean }> = ({ resume, isD
           <p className={`text-sm leading-relaxed transition-colors duration-300 ${
             isDark ? 'text-slate-400' : 'text-blue-600/70'
           }`}>
-            Professional resume template optimized for {resume.experience.toLowerCase()} positions
+            Professional resume template optimized for {resume.experience.toLowerCase()} positions. Includes modern formatting and industry-specific keywords.
           </p>
         </div>
         
         <button
           onClick={handleDownload}
-          className={`mt-6 w-full flex items-center justify-center space-x-2 py-3 px-4 rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 group-hover:shadow-lg ${
+          className={`mt-6 w-full flex items-center justify-center space-x-2 py-4 px-4 rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 group-hover:shadow-lg font-semibold ${
             isDark 
               ? 'bg-green-500/20 hover:bg-green-500/30 text-green-400 border border-green-400/30' 
               : 'bg-green-100/80 hover:bg-green-200/80 text-green-600 border border-green-300/50'
