@@ -849,13 +849,13 @@ const ResumeCard_OLD: React.FC<{ resume: Resume; isDark: boolean }> = ({ resume,
               }`}>
                 {resume.title}
               </h3>
-              <div className="flex flex-wrap gap-1 mb-2">
-                {resume.skills.slice(0, 3).map((skill, index) => (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {videoCategories[selectedVideoCategory as keyof typeof videoCategories]?.map((video, index) => (
                   <span
                     key={index}
                     className={`px-2 py-1 rounded-md text-xs transition-all duration-300 hover:scale-105 ${
                       isDark ? 'bg-slate-600/50 text-slate-300' : 'bg-blue-100/60 text-blue-700'
-                    }`}
+                    className="bg-gray-50 rounded-xl p-4 hover:bg-gray-100 transition-all duration-300 hover:shadow-md group"
                   >
                     {skill}
                   </span>
@@ -893,18 +893,6 @@ const ResumeCard_OLD: React.FC<{ resume: Resume; isDark: boolean }> = ({ resume,
 function App() {
   const [isDark, setIsDark] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isVideoPopupOpen, setIsVideoPopupOpen] = useState(false);
-  const [selectedSegment, setSelectedSegment] = useState<VideoSegment | null>(null);
-
-  const openVideoPopup = (segment: VideoSegment) => {
-    setSelectedSegment(segment);
-    setIsVideoPopupOpen(true);
-  };
-
-  const closeVideoPopup = () => {
-    setIsVideoPopupOpen(false);
-    setSelectedSegment(null);
-  };
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
@@ -1065,29 +1053,33 @@ function App() {
               <Sun className="w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 group-hover:rotate-180" />
             ) : (
               <Moon className="w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 group-hover:-rotate-12" />
-            )}
+                    <div className="relative mb-3 overflow-hidden rounded-lg">
           </button>
         </div>
 
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+                        className="w-full h-32 object-cover group-hover:scale-105 transition-transform duration-300"
           <div className="text-center">
-              <div className="flex items-center justify-center mb-6 sm:mb-8">
-                <div className="relative group">
+                      <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div className="bg-white bg-opacity-90 rounded-full p-2">
+                          <Play className="w-6 h-6 text-blue-600" />
+                        </div>
                   {/* Floating glow effect */}
                   <div className={`absolute -inset-2 rounded-3xl opacity-0 group-hover:opacity-100 transition-all duration-700 blur-xl ${
                     isDark 
                       ? 'bg-gradient-to-br from-blue-400/40 via-cyan-400/40 to-indigo-500/40' 
                       : 'bg-gradient-to-br from-sky-500/30 via-blue-500/30 to-indigo-600/30'
-                  } animate-pulse`} style={{ animationDuration: '3s' }} />
+                    <h3 className="font-semibold text-gray-800 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors duration-300">
+                      {video.title}
+                    </h3>
                   
                   {/* Main floating container */}
                   <div className={`relative p-5 sm:p-6 rounded-3xl transition-all duration-700 group-hover:scale-110 animate-bounce ${
                     isDark 
-                      ? 'bg-gradient-to-br from-slate-800/40 via-blue-900/30 to-indigo-900/40 border border-blue-400/20 shadow-2xl shadow-blue-500/20'
+                      className="inline-flex items-center gap-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-all duration-300 transform hover:scale-105 text-sm font-medium group"
                       : 'bg-gradient-to-br from-white/70 via-sky-50/90 to-blue-100/70 border border-blue-300/40 shadow-2xl shadow-blue-500/15'
-                  } backdrop-blur-lg group-hover:shadow-3xl`} style={{ animationDuration: '4s', animationIterationCount: 'infinite' }}>
+                      <Play className="w-4 h-4 group-hover:animate-pulse" />
                     <Database className={`w-10 h-10 sm:w-12 sm:h-12 transition-all duration-300 ${
-                      isDark ? 'text-blue-300 group-hover:text-cyan-300' : 'text-blue-600 group-hover:text-sky-700'
+                      <ExternalLink className="w-4 h-4 group-hover:rotate-12 transition-transform duration-300" />
                     }`} />
                   </div>
                   
