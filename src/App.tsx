@@ -893,6 +893,18 @@ const ResumeCard_OLD: React.FC<{ resume: Resume; isDark: boolean }> = ({ resume,
 function App() {
   const [isDark, setIsDark] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isVideoPopupOpen, setIsVideoPopupOpen] = useState(false);
+  const [selectedSegment, setSelectedSegment] = useState<VideoSegment | null>(null);
+
+  const openVideoPopup = (segment: VideoSegment) => {
+    setSelectedSegment(segment);
+    setIsVideoPopupOpen(true);
+  };
+
+  const closeVideoPopup = () => {
+    setIsVideoPopupOpen(false);
+    setSelectedSegment(null);
+  };
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
